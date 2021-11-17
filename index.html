@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <title>stage-project</title>
+
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+
+  <link rel="icon" href="./assets/img/vueLogo.png" />
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" />
+  <link href="./assets/style/style.css" rel="stylesheet" />
+</head>
+
+<body>
+  <div id="app">
+    <nav>
+      <div class="nav-container">
+        <div id="logo">
+          <router-link to="/">
+            <img src="./assets/img/waffer2.png" alt="logo" />
+          </router-link>
+        </div>
+          <li>
+            <router-link to="/hearts">
+              <i class="fas fa-heart"></i>
+              <span id="nav-not"></span>
+            </router-link>
+          </li>
+          <li>
+            <router-link to="/shopping">
+              <i class="fas fa-shopping-cart"></i>
+            </router-link>
+          </li>
+        </ul>
+      </div>
+    </nav>
+    <router-view></router-view>
+  </div>
+  <script type="text/x-template" id="home">
+    <div class="home-container">
+      <h1>Articles</h1>
+       <!--search-->
+       <input v-model="searchKey" type="search" id="search" 
+       placeholder="chercher.." autocomplete="off"/>
+       <span v-if="searchKey && filtredlist.length >=1 ">
+         {{filtredlist.length}} résultat<span v-if="filtredlist.length >=2 ">s</span>
+       </span>
+
+    <div class="card-cart-container">
+      <div class="card-container">
+        <div v-for="prod in filtredlist" class="card">
+          <div class="img-container">
+            <img v-bind:src="prod.img" alt="">
+          </div>
+
+          <div class="card-text">
+            <h3>{{prod.description}}</h3>
+            <span>{{prod.price}}dt</span>
+          </div>
+
+          <div class="card-icons">
+            <div class="like-containers">
+              <input 
+              type="checkbox" 
+              name="chk" 
+              v-bind:id="prod.id"
+              :value="prod.id"
+              v-model='liked'
+              />
+              <label v-bind:for="prod.id">
+                <i class="fas fa-heart"></i>
+              </label>
+            </div>
+
+            <div class="add-to-cart">
+              <button v-on:click="addtocart(prod)">
+                <i class="fas fa-shopping-cart"></i>
+              </button>
+          </div>
+          </div>
+        </div>
+        <div v-if="filtredlist.length==[]" class="no-result">
+          <h3>Désolé</h3>
+          <p>Aucun résultat trouvé</p>
+      </div>
+    </div>
+    <!--cart display-->
+    <div v-if="cart.length > 0" class="shopping-cart" id="shopping-cart">
+      <h2>Panier</h2>
+
+      <div class="item-group">
+      <div v-for="prod,id in cart " v-bind:key="prod.id" class="item" >
+
+        <div class="img-container">
+          <img v-bind:src="prod.img" alt=""/>
+        </div>
+
+        <div class="item-description">
+          <h3>{{prod.description}}</h3>
+          <p>{{prod.price}}dt</p>
+        </div>
+
+        <div class="item-quantity">
+          <h5>Quantité: {{prod.quantity}}</h5>
+
+        <div class="cart-icons">
+          <button v-on:click="plusone(prod)">
+            <i class="fa fa-plus"></i>
+          </button>
+          <button v-on:click="removeone(prod,id)">
+            <i class="fa fa-minus"></i>
+          </button>
+          <button v-on:click="removeprod(id)">
+            <i class="fa fa-trash"></i>
+          </button>
+        </div>
+        </div>
+      </div>
+      </div>
+      <div class="grand-total">
+        <div class="total">
+          <h2>Total</h2>
+          <h3>{{ totalprod }}dt</h3>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</script>
+
+  <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+  <script src=https://unpkg.com/vue-router/dist/vue-router.js></script>
+  <script src="https://unpkg.com/vue-cookies@1.7.4/vue-cookies.js"></script>
+  <script src="./assets/js/vue.js"></script>
+  <script src="./assets/js/script.js"></script>
+</body>
+
+</html>
